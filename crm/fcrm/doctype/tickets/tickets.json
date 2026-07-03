@@ -1,0 +1,70 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "TKT-.YYYY.-.#####",
+ "creation": "2026-07-02 11:37:09.128542",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "create_new_ticket_section",
+  "subject",
+  "customer",
+  "column_break_tpsl",
+  "assign_ticket_default_is_current_user"
+ ],
+ "fields": [
+  {
+   "fieldname": "create_new_ticket_section",
+   "fieldtype": "Section Break",
+   "label": "Create New Ticket"
+  },
+  {
+   "fieldname": "subject",
+   "fieldtype": "Data",
+   "label": "Subject"
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "CRM Organization"
+  },
+  {
+   "fieldname": "column_break_tpsl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "assign_ticket_default_is_current_user",
+   "fieldtype": "Link",
+   "label": "Assign ticket (default is current user)",
+   "options": "User"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-07-02 18:20:55.637495",
+ "modified_by": "Administrator",
+ "module": "FCRM",
+ "name": "Tickets",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

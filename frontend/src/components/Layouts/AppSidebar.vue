@@ -181,6 +181,7 @@ import Notifications from '@/components/Notifications.vue'
 import Settings from '@/components/Settings/Settings.vue'
 import SalesHierarchyBanner from '@/components/SalesHierarchyBanner.vue'
 import { viewsStore } from '@/stores/views'
+import LucideTicket from '~icons/lucide/ticket'
 import {
   unreadNotificationsCount,
   notificationsStore,
@@ -254,6 +255,11 @@ const links = [
     label: 'Tasks',
     icon: TaskIcon,
     to: 'Tasks',
+  },
+  { 
+    label: 'Tickets', 
+    icon: LucideTicket, 
+    to: 'Tickets'
   },
   {
     label: 'Calendar',

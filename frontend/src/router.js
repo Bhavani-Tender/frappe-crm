@@ -121,6 +121,23 @@ const routes = [
     name: 'Not Permitted',
     component: () => import('@/pages/NotPermitted.vue'),
   },
+  {
+    path: '/tickets',
+    name: 'Tickets',
+    component: () => import('@/pages/Tickets.vue'),
+  },
+  {
+    path: '/tickets/:ticketId',
+    name: 'Ticket',
+    component: () => import(`@/pages/${handleMobileView('Ticket')}.vue`),
+    props: true,
+  },
+  // {
+  //   path: '/tickets/:ticketId',
+  //   name: 'Ticket',
+  //   component: () => import('@/pages/Ticket.vue'),
+  //   props: true,
+  // },
 ]
 
 const handleMobileView = (componentName) => {
