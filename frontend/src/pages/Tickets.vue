@@ -94,7 +94,7 @@ const rows = computed(() => {
     tickets.value?.data.rows.forEach((row) => {
       _rows[row] = ticket[row]
 
-      let fieldType = tickets.value?.data.columns?.find(
+      let fieldType = tickets.value?.data.columns?.find( 
         (col) => (col.key || col.value) == row,
       )?.type
 

@@ -43,6 +43,10 @@
             :docname="docname"
           />
           <ErrorMessage v-if="error" class="mt-4" :message="__(error)" />
+            <!-- ADD THIS SECTION -->
+          <div v-if="doctype === 'Tickets' && editMode && docname" class="mt-6 border-t pt-6">
+            <TicketComments :ticket="docname" />
+          </div>
         </div>
       </div>
       <div class="px-4 pb-7 pt-4 sm:px-6">
@@ -60,6 +64,7 @@
 </template>
 
 <script setup>
+import TicketComments from '@/components/Tickets/TicketComments.vue'
 import EditIcon from '@/components/Icons/EditIcon.vue'
 import FieldLayout from '@/components/FieldLayout/FieldLayout.vue'
 import CustomActions from '@/components/CustomActions.vue'

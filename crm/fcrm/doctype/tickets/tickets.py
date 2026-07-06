@@ -2,6 +2,7 @@
 # For license information, please see license.txt
 
 # import frappe
+import frappe
 from frappe.model.document import Document
 
 
@@ -61,3 +62,46 @@ class Tickets(Document):
 			"columns": columns,
 			"rows": rows,
 		}
+@frappe.whitelist()
+def get_comments(ticket):
+    comments = frappe.get_all(
+        "Comment",
+        filters={
+            "reference_doctype": "Tickets",
+            "reference_name": ticket,
+        },
+        fields=[
+            "name",
+            "content",
+            "owner",
+            "creation",
+            "modified",
+        ],
+        order_by="creation asc",
+    )
+
+    for comment in comments:
+        comment["owner_name"] = frappe.get_cached_value(
+            "User",
+            comment["owner"],
+            "full_name",
+        )
+
+        comment["attachments"] = []
+
+    return comments
+
+@frappe.whitelist()
+def add_comment(ticket, content):
+    comment = frappe.get_doc(
+        {
+            "doctype": "Comment",
+            "comment_type": "Comment",
+            "reference_doctype": "Tickets",
+            "reference_name": ticket,
+            "content": content,
+        }
+    )
+    comment.insert(ignore_permissions=True)
+    return comment.as_dict()
+
