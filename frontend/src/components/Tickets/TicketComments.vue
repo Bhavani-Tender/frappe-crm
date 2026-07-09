@@ -8,6 +8,7 @@
         v-model="newCommentContent"
         :content="newCommentContent"
         :editable="true"
+        :mentions="usersList"
         :editor-class="['prose-sm max-w-none min-h-[3rem]']"
         @change="newCommentContent = $event"
       />
@@ -78,6 +79,7 @@
               <TextEditor
                 :content="editContent"
                 :editable="true"
+                :mentions="usersList"
                 :editor-class="['prose-sm max-w-none min-h-[3rem]']"
                 @change="editContent = $event"
               />
@@ -127,6 +129,7 @@ import TimelineTimestamp from "@/components/Activities/TimelineTimestamp.vue"
 import CommentIcon from "@/components/Icons/CommentIcon.vue"
 import { sanitizeHTML, ConfirmDelete } from "@/utils"
 import { sessionStore } from "@/stores/session"
+import { usersStore } from '@/stores/users'
 
 const props = defineProps({
   ticket: {
@@ -136,6 +139,8 @@ const props = defineProps({
 })
 
 const { user } = sessionStore()
+const { users: usersList } = usersStore()
+console.log("Users List:", usersList)
 
 const comments = ref([])
 const newCommentContent = ref("")
