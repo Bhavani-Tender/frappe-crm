@@ -1,9 +1,35 @@
 #!/bin/bash
 set -e
 
-if [ -d "/home/frappe/frappe-bench/apps/frappe" ]; then
+BENCH_DIR="/home/frappe/frappe-bench"
+SITE_NAME="crm.localhost"
+
+# Bench already exists
+if [ -d "$BENCH_DIR/apps/frappe" ]; then
     echo "Bench already exists."
-    cd /home/frappe/frappe-bench
+
+    cd $BENCH_DIR
+
+    if [ -d "$BENCH_DIR/sites/$SITE_NAME" ]; then
+        echo "Site already exists."
+    else
+        echo "Creating site..."
+
+        bench new-site $SITE_NAME \
+            --force \
+            --mariadb-root-password 123 \
+            --admin-password admin \
+            --no-mariadb-socket
+
+        bench --site $SITE_NAME install-app crm
+
+        bench --site $SITE_NAME set-config developer_mode 1
+        bench --site $SITE_NAME set-config mute_emails 1
+        bench --site $SITE_NAME set-config server_script_enabled 1
+
+        bench use $SITE_NAME
+    fi
+
     exec bench start
 fi
 
@@ -15,37 +41,30 @@ bench init --skip-redis-config-generation frappe-bench --version version-15
 
 cd frappe-bench
 
-# Configure services
 bench set-mariadb-host mariadb
 bench set-redis-cache-host redis://redis:6379
 bench set-redis-queue-host redis://redis:6379
 bench set-redis-socketio-host redis://redis:6379
 
-# Remove Redis processes from Procfile
 sed -i '/redis/d' Procfile
 sed -i '/watch/d' Procfile
 
-# Allow git to use mounted repository
 git config --global --add safe.directory /workspace
 
-# Install CRM app from your mounted repository
 bench get-app --soft-link /workspace
 
-# Create site
-bench new-site crm.localhost \
+bench new-site $SITE_NAME \
     --force \
     --mariadb-root-password 123 \
     --admin-password admin \
     --no-mariadb-socket
 
-# Install CRM
-bench --site crm.localhost install-app crm
+bench --site $SITE_NAME install-app crm
 
-# Development settings
-bench --site crm.localhost set-config developer_mode 1
-bench --site crm.localhost set-config mute_emails 1
-bench --site crm.localhost set-config server_script_enabled 1
+bench --site $SITE_NAME set-config developer_mode 1
+bench --site $SITE_NAME set-config mute_emails 1
+bench --site $SITE_NAME set-config server_script_enabled 1
 
-bench use crm.localhost
+bench use $SITE_NAME
 
 exec bench start
